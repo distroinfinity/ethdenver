@@ -345,7 +345,7 @@ export default function ChatContainer() {
             </div>
 
             {/* Highlighted Chain Banner */}
-            {isConnected && (
+            {isConnected && isChainSupported && (
                 <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-3 rounded-lg mb-3 text-center shadow-md">
                     <div className="flex items-center justify-center flex-wrap">
                         <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
