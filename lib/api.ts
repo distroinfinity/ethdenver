@@ -98,8 +98,20 @@ export async function sendMessage(message: string, userId: string): Promise<Send
 }
 
 export const fetchEthPrice = async (): Promise<number> => {
-  // placeholder for fetching ETH price
-  return 10000;
+  try {
+    const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch ETH price');
+    }
+
+    const data = await response.json();
+    const ethPrice = data.ethereum.usd;
+    return ethPrice;
+  } catch (error) {
+    console.error('Error fetching ETH price:', error);
+    throw new Error('Failed to fetch ETH price');
+  }
 };
 
 
