@@ -33,8 +33,7 @@ export async function fetchHistoricConversation(): Promise<HistoricConversation>
             id: message.id.toString(),
             role: message.isBot ? 'assistant' : 'user',
             content: message.content,
-            name: message.user.username,
-            userId: message.userId,
+            name: message.userId,
         }));
 
         return { messages };

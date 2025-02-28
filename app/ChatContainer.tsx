@@ -404,7 +404,7 @@ export default function ChatContainer() {
                                     }`}
                                 >
                                     {message.role === 'user'
-                                        ? formatAddress(message.userId)
+                                        ? formatAddress(message.name)
                                         : 'Pixie'}
                                 </div>
                                 <div className="flex items-start">
