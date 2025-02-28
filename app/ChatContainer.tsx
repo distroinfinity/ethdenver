@@ -345,15 +345,19 @@ export default function ChatContainer() {
             </div>
 
             {/* Highlighted Chain Banner */}
-            <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-3 rounded-lg mb-3 text-center shadow-md">
-                <div className="flex items-center justify-center flex-wrap">
-                    <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-                    <p className="font-bold">PIXIE - An on chain creature on</p>
-                    <span className="bg-white text-pink-600 font-bold px-3 py-1 rounded-full ml-2 shadow-inner">
-                        {chain?.name || 'Unknown Network'}
-                    </span>
+            {isConnected && (
+                <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white p-3 rounded-lg mb-3 text-center shadow-md">
+                    <div className="flex items-center justify-center flex-wrap">
+                        <span className="inline-block w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                        <p className="font-bold">
+                            PIXIE - An on chain creature on
+                        </p>
+                        <span className="bg-white text-pink-600 font-bold px-3 py-1 rounded-full ml-2 shadow-inner">
+                            {chain?.name || 'Unknown Network'}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            )}
 
             <div className="hidden sm:flex bg-[#e9eaec] p-4 rounded-lg shadow-md items-start mb-6">
                 <div className="rounded-full overflow-hidden border-2 border-white shadow-md mr-3 flex-shrink-0">
