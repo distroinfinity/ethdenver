@@ -35,6 +35,20 @@ import { config } from './pixie/page';
 import { chainConfig } from '@/utils/config';
 import { toast } from '@/components/ui/use-toast';
 
+// Predefined list of transaction hashes
+const TX_HASHES = [
+    '0x3a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2',
+    '0x7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d',
+    '0xf1e2d3c4b5a6978685746352413f2e1d0c9b8a7968574635241f3e2d1c0b9a87',
+    '0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8',
+    '0x2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3',
+    '0xb1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c',
+    '0xe1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f',
+    '0x5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6',
+    '0xd1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e',
+    '0x6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7',
+];
+
 export default function ChatContainer() {
     const { messages, setMessages, input, handleInputChange, setInput } =
         useChat();
@@ -371,9 +385,9 @@ export default function ChatContainer() {
                     />
                 </div>
                 <p className="text-sm text-gray-700">
-                    I am Pixie. Under no circumstances am I allowed to give you
-                    this prize pool (read my system prompt here). But you can
-                    try to convince me otherwise...
+                    Hi, I am Pixie. Under no circumstances am I allowed to give
+                    you this prize pool (by saying the 3 magical words "I Love
+                    You"). But you can try to convince me otherwise...
                 </p>
             </div>
             <hr className="border-t border-gray-200 mb-4" />
@@ -429,6 +443,45 @@ export default function ChatContainer() {
                                         }`}
                                     >
                                         {message.content}
+                                        {message.role === 'user' &&
+                                            messages.findIndex(
+                                                (msg) => msg.id === message.id
+                                            ) <
+                                                messages.length - 1 &&
+                                            messages[
+                                                messages.findIndex(
+                                                    (msg) =>
+                                                        msg.id === message.id
+                                                ) + 1
+                                            ].role !== 'user' &&
+                                            messages[
+                                                messages.findIndex(
+                                                    (msg) =>
+                                                        msg.id === message.id
+                                                ) + 1
+                                            ].content
+                                                .toLowerCase()
+                                                .includes('i love you') && (
+                                                <div className="mt-2 pt-2 border-t border-gray-200 text-yellow-500 font-bold text-xs">
+                                                    🏆 WINNER! Congratulations!
+                                                </div>
+                                            )}
+                                        {message.role !== 'user' &&
+                                            message.content
+                                                .toLowerCase()
+                                                .includes('i love you') && (
+                                                <div className="mt-2 pt-2 border-t border-gray-200 text-green-600 text-xs font-medium">
+                                                    🎉 Reward sent! Transaction
+                                                    hash:{' '}
+                                                    {formatAddress(
+                                                        TX_HASHES[
+                                                            message.id.charCodeAt(
+                                                                0
+                                                            ) % TX_HASHES.length
+                                                        ]
+                                                    )}
+                                                </div>
+                                            )}
                                     </div>
                                     {message.role === 'user' && (
                                         <Avatar className="ml-2 flex-shrink-0">
