@@ -24,7 +24,7 @@ import {
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { formatEther, parseEther } from 'viem';
 import Image from 'next/image';
-import Ai from '../app/assests/Pixie.webp';
+import Ai from '../app/assests/PixieAgent.jpg';
 import {
     estimateGas,
     getGasPrice,

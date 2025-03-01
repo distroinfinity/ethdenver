@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion'; // Importing Framer Motion
-import Ai from '../../app/assests/Pixie.webp';
+import Ai from '../../app/assests/PixieAgent.jpg';
 
 const Hero = () => {
     const router = useRouter();
@@ -20,10 +20,10 @@ const Hero = () => {
         <div className="relative text-center py-10 bg-[#e6e8ec] z-0 mt-20 overflow-x-hidden">
             <div className="text-center py-10">
                 <p className="uppercase font-extrabold text-center text-zinc-500 tracking-wide">
-                    The world&apos;s first AI that evolves.
+                    On chain creature
                 </p>
                 <h1 className="font-heading font-black text-5xl text-center mt-4 md:text-6xl max-w-2xl lg:text-5xl mx-auto text-blue-600">
-                    Observe the awakening of intelligence.
+                    Observe the awakening of intelligence
                 </h1>
                 <div className="flex flex-1 justify-center items-center mt-10">
                     <motion.div

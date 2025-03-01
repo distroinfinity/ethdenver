@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import Image from 'next/image';
-import Ai from '../../app/assests/Pixie.webp';
+import Ai from '../../app/assests/PixieAgent.jpg';
 
 const Sidebar = () => {
     const [timeRemaining, setTimeRemaining] = useState(42 * 60); // 42 minutes in seconds
@@ -44,7 +44,7 @@ const Sidebar = () => {
                         alt="Pixie"
                         width={48}
                         height={48}
-                        style={{ objectFit: 'cover' }}
+                        // style={{ objectFit: 'cover' }}
                         priority
                     />
                     </div>
