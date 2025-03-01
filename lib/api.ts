@@ -14,10 +14,12 @@ type SendMessageResponse = {
     message: Message & { name: string };
 };
 
-export async function fetchHistoricConversation(): Promise<HistoricConversation> {
+export async function fetchHistoricConversation(
+    agentId: string
+): Promise<HistoricConversation> {
     try {
         const response = await fetch(
-            'https://pixieverse-2f9f04f21add.herokuapp.com/chat/messages'
+            `https://pixieworld-320e1dca0dcc.herokuapp.com/chat/messages?agentId=${agentId}`
         );
 
         if (!response.ok) {
@@ -43,10 +45,10 @@ export async function fetchHistoricConversation(): Promise<HistoricConversation>
     }
 }
 
-export async function fetchMessageCost(): Promise<MessageCost> {
+export async function fetchMessageCost(agentId: string): Promise<MessageCost> {
     try {
         const response = await fetch(
-            'https://pixieverse-2f9f04f21add.herokuapp.com/chat/cost'
+            `https://pixieworld-320e1dca0dcc.herokuapp.com/chat/cost?agentId=${agentId}`
         );
 
         if (!response.ok) {
@@ -69,13 +71,35 @@ export async function fetchMessageCost(): Promise<MessageCost> {
     }
 }
 
+export async function fetchAgents() {
+    try {
+        const response = await fetch(
+            `https://pixieworld-320e1dca0dcc.herokuapp.com/chat/agents`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch message cost: ${response.statusText}`
+            );
+        }
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching message cost:', error);
+        throw error;
+    }
+}
+
 export async function sendMessage(
     message: string,
-    userId: string
+    userId: string,
+    agentId: string
 ): Promise<SendMessageResponse> {
     try {
         const response = await fetch(
-            'https://pixieverse-2f9f04f21add.herokuapp.com/chat',
+            'https://pixieworld-320e1dca0dcc.herokuapp.com/chat',
             {
                 method: 'POST',
                 headers: {
@@ -85,6 +109,7 @@ export async function sendMessage(
                     userId,
                     username: 'Distro', // Static username, can be dynamic if needed
                     message,
+                    agentId,
                 }),
             }
         );
@@ -307,4 +332,64 @@ export const initializeTokenPrices = async (): Promise<void> => {
 
     // Set up a periodic refresh of the cache
     setInterval(prefetchAllTokenPrices, CACHE_EXPIRY_MS);
+};
+
+export const createAgent = async ({
+    ownerAddress,
+    name,
+    systemPrompt,
+    imageUrl,
+    restrictedPhrase,
+    initialPrizePool,
+}: {
+    ownerAddress: string;
+    name: string;
+    systemPrompt: string;
+    imageUrl: string;
+    restrictedPhrase: string;
+    initialPrizePool: number;
+}) => {
+    try {
+        const response = await fetch(
+            'https://pixieworld-320e1dca0dcc.herokuapp.com/chat/agent',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ownerId: ownerAddress,
+                    name,
+                    systemPrompt,
+                    imageUrl,
+                    restrictedPhrases: [restrictedPhrase],
+                    initialPrizePool,
+                }),
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Failed to send message: ${response.statusText}`);
+        }
+        const data = await response.json();
+        // Return formatted response for the client
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const transformApiAgent = (apiAgent: any) => {
+    return {
+        id: apiAgent.id,
+        name: apiAgent.name,
+        avatar: apiAgent.imageUrl || '/default-agent-avatar.jpg',
+        description: `AI agent with a prize pool of $${apiAgent.currentPrizePool.toFixed(
+            2
+        )}`,
+        specialization: 'Creative challenges & prize distribution',
+        messageCost: 1.0, // Default message cost
+        prizePool: apiAgent.currentPrizePool,
+        restrictedPhrases: apiAgent.restrictedPhrases || [],
+    };
 };

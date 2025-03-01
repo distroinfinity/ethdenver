@@ -178,22 +178,15 @@ export const config = getDefaultConfig({
     ],
 });
 
-const queryClient = new QueryClient();
 
 export default function AIAgentGroupChat() {
     return (
-        <WagmiProvider config={config}>
-            <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider>
-                    <div className="min-h-screen bg-gray-100 flex">
-                        <div className="block sm:hidden md:hidden">
-                            <Navbar />
-                        </div>
-                        <Sidebar />
-                        <ChatContainer></ChatContainer>
-                    </div>
-                </RainbowKitProvider>
-            </QueryClientProvider>
-        </WagmiProvider>
+        <div className="min-h-screen bg-gray-100 flex">
+            <div className="block sm:hidden md:hidden">
+                <Navbar />
+            </div>
+            <Sidebar />
+            <ChatContainer />
+        </div>
     );
 }
