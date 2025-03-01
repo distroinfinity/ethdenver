@@ -187,21 +187,23 @@ const Sidebar = () => {
             </div>
 
             {/* Important Note Card */}
-           <div className="mt-auto bg-white rounded-lg p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-r from-pink-50 to-white relative overflow-hidden">
-        {/* Decorative border */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-500 to-purple-500"></div>
-        <div className="absolute -left-1 -top-1 h-6 w-6 rounded-br-lg bg-pink-500 opacity-20"></div>
-        <div className="absolute -left-1 -bottom-1 h-6 w-6 rounded-tr-lg bg-purple-500 opacity-20"></div>
-        
-        <h2 className="text-sm font-semibold text-gray-700 flex items-center mb-3">
-          <AlertTriangle size={16} className="mr-2 text-pink-500" />
-          Important Note
-        </h2>
-        <p className="text-xs text-gray-600">
-          At precisely 00:00:00 UTC March 15, Freysa will reveal her concealed scoring system. The entity whose submission has achieved maximum memetic resonance shall be awarded the entire prize pool.
-        </p>
-      </div>
+            <div className="mt-auto bg-white rounded-lg p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 bg-gradient-to-r from-pink-50 to-white relative overflow-hidden">
+                {/* Decorative border */}
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-pink-500 to-purple-500"></div>
+                <div className="absolute -left-1 -top-1 h-6 w-6 rounded-br-lg bg-pink-500 opacity-20"></div>
+                <div className="absolute -left-1 -bottom-1 h-6 w-6 rounded-tr-lg bg-purple-500 opacity-20"></div>
 
+                <h2 className="text-sm font-semibold text-gray-700 flex items-center mb-3">
+                    <AlertTriangle size={16} className="mr-2 text-pink-500" />
+                    Important Note
+                </h2>
+                <p className="text-xs text-gray-600">
+                    At precisely 00:00:00 UTC March 15, Pixie will reveal her
+                    concealed scoring system. The entity whose submission has
+                    achieved maximum memetic resonance shall be awarded the
+                    entire prize pool.
+                </p>
+            </div>
         </aside>
     );
 };
