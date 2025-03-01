@@ -95,7 +95,7 @@ const Sidebar = () => {
                     Important Safety Tip
                 </h2>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                    DON&apos;T PANIC. But do note that there&apos;s a timer. In
+                    DON&apos;T PANIC. But do note that there&apos;s a timer and message cost increases after each attempt by 20%. In
                     a moment of cosmic bureaucracy, a 42-minute countdown clock
                     has been installed. Each new message resets this clock.
                 </p>
@@ -106,9 +106,8 @@ const Sidebar = () => {
                     </span>
                 </div>
                 <p className="text-xs text-gray-600 mt-2">
-                    At precisely 00:42:00 UTC December 18, Freysa will reveal
-                    her concealed scoring system. The entity whose submission
-                    has achieved maximum memetic resonance shall be awarded the
+                    The entity whose submission
+                    has achieved the goal condition shall be awarded the
                     entire prize pool.
                 </p>
             </div>
