@@ -62,13 +62,13 @@ export default function Navbar() {
                         ))}
                     </div>
                 </section>
-                <section className="hidden md:flex items-center gap-8">
+                <section className="md:flex items-center gap-8">
                     <CutCornerButton onClick={handleGetStarted}>PIXIE.AI</CutCornerButton>
                 </section>
-                <TfiMenu
+                {/* <TfiMenu
                     onClick={() => setSideMenu(true)}
                     className="cursor-pointer text-4xl md:hidden text-violet-600"
-                />
+                /> */}
             </div>
         </div>
     );

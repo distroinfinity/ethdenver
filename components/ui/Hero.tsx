@@ -14,10 +14,19 @@ const Hero = () => {
     };
 
     const handleSpawnAgent = () => {
-        window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-        });
+        // Navigate to the spawn agent section by ID
+        const spawnAgentSection = document.getElementById(
+            'spawn-agent-section'
+        );
+        if (spawnAgentSection) {
+            spawnAgentSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // Fallback if section doesn't exist yet
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
     };
 
     // Text animation variants - much faster timing
@@ -57,11 +66,12 @@ const Hero = () => {
     return (
         <div className="relative flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#e6e8ec] to-white z-0">
             <div className="max-w-6xl mx-auto px-4 text-center py-8">
+                {/* Mobile-friendly subtitle placement */}
                 <motion.div
                     variants={container}
                     initial="hidden"
                     animate="visible" // Always animate immediately
-                    className="mb-4"
+                    className="mb-4 order-first md:order-first mt-10 md:mt-0"
                 >
                     {subtitleWords.map((word, index) => (
                         <motion.span
@@ -75,7 +85,7 @@ const Hero = () => {
                 </motion.div>
 
                 <motion.h1
-                    className="font-heading font-black text-4xl md:text-5xl lg:text-6xl mx-auto max-w-3xl text-blue-600"
+                    className="font-heading font-black text-4xl md:text-5xl lg:text-6xl mx-auto max-w-3xl text-blue-600 mb-4 md:mb-0"
                     variants={container}
                     initial="hidden"
                     animate="visible" // Always animate immediately

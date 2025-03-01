@@ -52,7 +52,7 @@ const SpawnAgentForm = () => {
     };
 
     return (
-        <div className="w-full bg-[#e6e8ec] py-16 px-4">
+        <div className="w-full bg-[#e6e8ec] py-16 px-4" id='spawn-agent-section'>
             <motion.div
                 className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
