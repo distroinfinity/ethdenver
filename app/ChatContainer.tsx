@@ -622,7 +622,8 @@ export default function ChatContainer() {
                                         }`}
                                     >
                                         {message.role === 'user'
-                                            ? formatAddress(message.id)
+                                            ? //@ts-ignore
+                                              formatAddress(message?.name)
                                             : selectedAgent.name}
                                     </div>
                                     <div className="flex items-start">
