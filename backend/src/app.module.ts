@@ -10,7 +10,8 @@ import { ChatModule } from './chat/chat.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    PrismaModule
+    PrismaModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
