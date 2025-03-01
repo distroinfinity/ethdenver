@@ -38,16 +38,16 @@ const Sidebar = () => {
         <aside className="w-80 bg-gray-50 p-6 h-screen hidden sm:flex flex-col border-r border-gray-200">
             <Link href="/" className="group">
                 <div className="flex items-center space-x-3 mb-8">
-                    <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-                        <Image
+                    <div className="rounded-full overflow-hidden border-2 border-white shadow-md mr-3 flex-shrink-0">
+                    <Image
                         src={Ai}
                         alt="Pixie"
                         width={48}
                         height={48}
-                        // style={{ objectFit: 'cover' }}
+                        style={{ objectFit: 'cover' }}
                         priority
                     />
-                    </div>
+                </div>
                     <div>
                         <h1 className="text-2xl font-extrabold text-gray-800 group-hover:text-purple-500 transition-colors">
                             Pixie
