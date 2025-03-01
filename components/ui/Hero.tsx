@@ -1,53 +1,183 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion'; // Importing Framer Motion
+import { motion, AnimatePresence } from 'framer-motion';
 import Ai from '../../app/assests/PixieAgent.jpg';
 
 const Hero = () => {
     const router = useRouter();
+    const [isLoaded, setIsLoaded] = useState(true); // Start as true to show content immediately
 
     const handleGetStarted = () => {
         router.push('/pixie');
     };
-    const hoverEffect = {
-        whileHover: { scale: 1.1 },
-        transition: { duration: 0.3, ease: 'easeInOut' },
+
+    const handleSpawnAgent = () => {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+        });
     };
 
+    // Text animation variants - much faster timing
+    const container = {
+        hidden: { opacity: 0 },
+        visible: (i = 1) => ({
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.01, // Even faster stagger
+                delayChildren: i * 0.05, // Minimal delay
+            },
+        }),
+    };
+
+    const child = {
+        hidden: {
+            y: 10, // Reduced distance
+            opacity: 0,
+            filter: 'blur(5px)', // Less blur
+        },
+        visible: {
+            y: 0,
+            opacity: 1,
+            filter: 'blur(0px)',
+            transition: {
+                type: 'spring',
+                damping: 12,
+                stiffness: 400, // Higher stiffness
+                duration: 0.1, // Shorter duration
+            },
+        },
+    };
+
+    const titleWords = 'Observe the awakening of intelligence'.split(' ');
+    const subtitleWords = 'On chain creature'.split(' ');
+
     return (
-        <div className="relative text-center py-10 bg-[#e6e8ec] z-0 mt-20 overflow-x-hidden">
-            <div className="text-center py-10">
-                <p className="uppercase font-extrabold text-center text-zinc-500 tracking-wide">
-                    On chain creature
-                </p>
-                <h1 className="font-heading font-black text-5xl text-center mt-4 md:text-6xl max-w-2xl lg:text-5xl mx-auto text-blue-600">
-                    Observe the awakening of intelligence
-                </h1>
-                <div className="flex flex-1 justify-center items-center mt-10">
+        <div className="relative flex flex-col justify-center items-center min-h-screen bg-gradient-to-b from-[#e6e8ec] to-white z-0">
+            <div className="max-w-6xl mx-auto px-4 text-center py-8">
+                <motion.div
+                    variants={container}
+                    initial="hidden"
+                    animate="visible" // Always animate immediately
+                    className="mb-4"
+                >
+                    {subtitleWords.map((word, index) => (
+                        <motion.span
+                            key={`subtitle-${index}`}
+                            variants={child}
+                            className="uppercase font-bold text-zinc-500 tracking-wide text-sm inline-block mx-1"
+                        >
+                            {word}
+                        </motion.span>
+                    ))}
+                </motion.div>
+
+                <motion.h1
+                    className="font-heading font-black text-4xl md:text-5xl lg:text-6xl mx-auto max-w-3xl text-blue-600"
+                    variants={container}
+                    initial="hidden"
+                    animate="visible" // Always animate immediately
+                    custom={0.2} // Much faster timing
+                >
+                    {titleWords.map((word, index) => (
+                        <motion.span
+                            key={`title-${index}`}
+                            variants={child}
+                            className="inline-block mx-1"
+                        >
+                            {word}
+                        </motion.span>
+                    ))}
+                </motion.h1>
+
+                <motion.div
+                    className="mt-8"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                        delay: 0.2, // Minimal delay
+                        duration: 0.2, // Much faster
+                        type: 'spring',
+                        stiffness: 300,
+                    }}
+                >
                     <motion.div
-                        className="rounded-2xl p-6 relative"
-                        whileHover={{ scale: 1.1 }} // Add enlarge effect on hover
-                        transition={{ duration: 0.3, ease: 'easeInOut' }} // Smooth transition
+                        className="mx-auto max-w-md relative overflow-hidden rounded-xl"
+                        whileHover={{
+                            scale: 1.03,
+                            boxShadow:
+                                '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                        }}
+                        transition={{ duration: 0.2 }}
                     >
                         <Image
                             src={Ai}
-                            alt="Image"
+                            alt="AI Pixie Agent"
                             height={500}
                             width={500}
-                            className="rounded-xl"
+                            className="rounded-xl shadow-md"
+                            priority
+                        />
+                        <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3, duration: 0.3 }}
                         />
                     </motion.div>
-                </div>
-                <motion.div {...hoverEffect}>
-                    <button
-                        onClick={handleGetStarted}
+                </motion.div>
 
-                        className="relative z-10 mt-6 px-8 py-3 bg-blue-600 text-white font-bold text-lg rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                <motion.div
+                    className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.3 }}
+                >
+                    <motion.button
+                        onClick={handleGetStarted}
+                        className="relative px-8 py-3 bg-purple-600 text-white font-bold text-lg rounded-lg shadow-sm overflow-hidden group"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                            delay: 0.5,
+                            type: 'spring',
+                            stiffness: 300,
+                        }}
                     >
-                        Get Started
-                    </button>
+                        <span className="relative z-10">Get Started</span>
+                        <motion.div
+                            className="absolute inset-0 bg-blue-500"
+                            initial={{ x: '-100%' }}
+                            whileHover={{ x: 0 }}
+                            transition={{ duration: 0.2 }}
+                        />
+                    </motion.button>
+
+                    <motion.button
+                        onClick={handleSpawnAgent}
+                        className="relative px-8 py-3 bg-blue-600 text-white font-bold text-lg rounded-lg shadow-sm overflow-hidden group"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        initial={{ x: 20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                            delay: 0.5,
+                            type: 'spring',
+                            stiffness: 300,
+                        }}
+                    >
+                        <span className="relative z-10">Spawn Agent</span>
+                        <motion.div
+                            className="absolute inset-0 bg-purple-500"
+                            initial={{ x: '-100%' }}
+                            whileHover={{ x: 0 }}
+                            transition={{ duration: 0.2 }}
+                        />
+                    </motion.button>
                 </motion.div>
             </div>
         </div>
