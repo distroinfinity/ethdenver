@@ -10,14 +10,14 @@ const SpawnAgentForm = () => {
         objective: '',
         prizePool: '',
         imageFile: null,
-        imagePreview: null
+        imagePreview: null,
     });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
 
@@ -27,7 +27,7 @@ const SpawnAgentForm = () => {
             setFormData({
                 ...formData,
                 imageFile: file,
-                imagePreview: URL.createObjectURL(file)
+                imagePreview: URL.createObjectURL(file),
             });
         }
     };
@@ -42,7 +42,7 @@ const SpawnAgentForm = () => {
             objective: '',
             prizePool: '',
             imageFile: null,
-            imagePreview: null
+            imagePreview: null,
         });
     };
 
@@ -52,8 +52,8 @@ const SpawnAgentForm = () => {
     };
 
     return (
-        <div className="w-full bg-[#e6e8ec] py-16 px-4">
-            <motion.div 
+        <div className="w-full bg-[#e6e8ec] py-16 px-4" id='spawn-agent-section'>
+            <motion.div
                 className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -63,12 +63,15 @@ const SpawnAgentForm = () => {
                     <h2 className="font-heading font-black text-4xl text-center text-blue-600 mb-8">
                         Spawn Your Agent
                     </h2>
-                    
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-6">
                                 <div>
-                                    <label htmlFor="agentName" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label
+                                        htmlFor="agentName"
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                    >
                                         Name of the Agent
                                     </label>
                                     <input
@@ -82,9 +85,12 @@ const SpawnAgentForm = () => {
                                         required
                                     />
                                 </div>
-                                
+
                                 <div>
-                                    <label htmlFor="objective" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label
+                                        htmlFor="objective"
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                    >
                                         What to Convince Her For
                                     </label>
                                     <textarea
@@ -98,9 +104,12 @@ const SpawnAgentForm = () => {
                                         required
                                     ></textarea>
                                 </div>
-                                
+
                                 <div>
-                                    <label htmlFor="prizePool" className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label
+                                        htmlFor="prizePool"
+                                        className="block text-sm font-medium text-gray-700 mb-1"
+                                    >
                                         Prize Pool
                                     </label>
                                     <input
@@ -115,7 +124,7 @@ const SpawnAgentForm = () => {
                                     />
                                 </div>
                             </div>
-                            
+
                             <div className="flex flex-col items-center justify-center">
                                 <label className="block text-sm font-medium text-gray-700 mb-4 w-full text-center">
                                     Agent Image
@@ -138,10 +147,10 @@ const SpawnAgentForm = () => {
                                             </span>
                                         </div>
                                     )}
-                                    
+
                                     <motion.label
                                         {...hoverEffect}
-                                        htmlFor="imageUpload" 
+                                        htmlFor="imageUpload"
                                         className="cursor-pointer px-4 py-2 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300"
                                     >
                                         Upload Image
@@ -157,10 +166,10 @@ const SpawnAgentForm = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="flex justify-center mt-8">
                             <CutCornerButton type="submit">
-                                SPAWN AGENT
+                                Submit for Review
                             </CutCornerButton>
                         </div>
                     </form>

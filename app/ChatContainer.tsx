@@ -314,7 +314,7 @@ export default function ChatContainer() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-screen w-full">
+            <div className="flex items-center justify-center h-screen w-full flex-1">
                 <div className="flex flex-col items-center space-y-4">
                     <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
                     <p className="text-gray-500">Loading chat...</p>
