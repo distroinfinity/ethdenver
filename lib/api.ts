@@ -120,7 +120,7 @@ const SUPPORTED_TOKENS = [
     'ethereum',
     'flow',
     'story-2',
-    'kiteai',
+    'kite',
     'taraxa',
     'hedera-hashgraph',
 ];
@@ -130,7 +130,7 @@ const TOKEN_ID_MAP: Record<string, string> = {
     ETH: 'ethereum',
     FLOW: 'flow',
     IP: 'story-2',
-    KITE: 'kiteai',
+    KITE: 'kite',
     TARA: 'taraxa',
     HBAR: 'hedera-hashgraph',
 };
