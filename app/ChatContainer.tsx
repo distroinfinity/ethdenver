@@ -198,7 +198,7 @@ export default function ChatContainer() {
             const tempUserMessageId = `temp-${Date.now()}`;
             const userMessage = {
                 id: tempUserMessageId,
-                role: 'user',
+                role: 'user' as 'assistant' | 'system' | 'user' | 'data',
                 content: input,
                 name: formatAddress(address),
             };
@@ -404,7 +404,8 @@ export default function ChatContainer() {
                                     }`}
                                 >
                                     {message.role === 'user'
-                                        ? formatAddress(message.name)
+                                        ? //@ts-ignore
+                                          formatAddress(message?.name)
                                         : 'Pixie'}
                                 </div>
                                 <div className="flex items-start">
@@ -557,8 +558,8 @@ export default function ChatContainer() {
                                                             style={{
                                                                 background:
                                                                     chain.iconBackground,
-                                                                width: 12,
-                                                                height: 12,
+                                                                width: 20,
+                                                                height: 20,
                                                                 borderRadius: 999,
                                                                 overflow:
                                                                     'hidden',
@@ -575,8 +576,8 @@ export default function ChatContainer() {
                                                                         chain.iconUrl
                                                                     }
                                                                     style={{
-                                                                        width: 12,
-                                                                        height: 12,
+                                                                        width: 20,
+                                                                        height: 20,
                                                                     }}
                                                                 />
                                                             )}
