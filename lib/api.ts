@@ -111,20 +111,111 @@ export async function sendMessage(
     }
 }
 
+// Cache to store token prices and their timestamp
+let tokenPriceCache: Record<string, { price: number; timestamp: number }> = {};
+const CACHE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+
+// List of all tokens we want to support
+const SUPPORTED_TOKENS = [
+    'ethereum',
+    'flow',
+    'story-2',
+    'kiteai',
+    'taraxa',
+    'hedera-hashgraph',
+];
+
+// Map of common symbols to their CoinGecko IDs
+const TOKEN_ID_MAP: Record<string, string> = {
+    ETH: 'ethereum',
+    FLOW: 'flow',
+    IP: 'story-2',
+    KITE: 'kiteai',
+    TARA: 'taraxa',
+    HBAR: 'hedera-hashgraph',
+};
+
+/**
+ * Fetch prices for all supported tokens in one API call
+ */
+export const prefetchAllTokenPrices = async (): Promise<void> => {
+    try {
+        const response = await fetch(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${SUPPORTED_TOKENS.join(
+                ','
+            )}&vs_currencies=usd`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'Cache-Control': 'no-cache',
+                },
+            }
+        );
+
+        if (!response.ok) {
+            console.warn(
+                `Failed to prefetch token prices: ${response.status} ${response.statusText}`
+            );
+            return;
+        }
+
+        const data = await response.json();
+        const currentTime = Date.now();
+
+        // Update the cache with all fetched prices
+        for (const coinId of SUPPORTED_TOKENS) {
+            if (data[coinId]?.usd) {
+                tokenPriceCache[coinId] = {
+                    price: data[coinId].usd,
+                    timestamp: currentTime,
+                };
+            }
+        }
+
+        console.log(
+            'All token prices prefetched successfully:',
+            tokenPriceCache
+        );
+    } catch (error) {
+        console.error('Error prefetching token prices:', error);
+    }
+};
+
+/**
+ * Get the CoinGecko ID for a token symbol
+ */
+const getTokenId = (symbol: string): string => {
+    const upperSymbol = symbol.toUpperCase();
+    return TOKEN_ID_MAP[upperSymbol] || symbol.toLowerCase();
+};
+
+/**
+ * Check if a cached price is still valid
+ */
+const isCacheValid = (coinId: string): boolean => {
+    const cachedData = tokenPriceCache[coinId];
+    return (
+        cachedData !== undefined &&
+        Date.now() - cachedData.timestamp < CACHE_EXPIRY_MS
+    );
+};
+
+/**
+ * Fetch the price of a specific token
+ */
 export const fetchTokenPrice = async (tokenSymbol: string): Promise<number> => {
     try {
         // Default to ethereum if no symbol provided
-        const symbol = tokenSymbol?.toLowerCase() || 'ethereum';
+        const symbol = tokenSymbol || 'ETH';
+        const coinId = getTokenId(symbol);
 
-        // Map of common symbols to their CoinGecko IDs
-        const tokenIdMap: Record<string, string> = {
-            ETH: 'ethereum',
-            FLOW: 'flow',
-            IP: 'story-2',
-        };
-
-        // Use the map if the symbol is in it, otherwise use the provided symbol
-        const coinId = tokenIdMap[symbol] || symbol;
+        // Check cache first
+        if (isCacheValid(coinId)) {
+            console.log(
+                `Using cached price for ${coinId}: ${tokenPriceCache[coinId].price}`
+            );
+            return tokenPriceCache[coinId].price;
+        }
 
         // Call CoinGecko API to get the price
         const response = await fetch(
@@ -138,12 +229,22 @@ export const fetchTokenPrice = async (tokenSymbol: string): Promise<number> => {
         );
 
         if (!response.ok) {
-            console.warn(
-                `Failed to fetch price for ${coinId}, falling back to ethereum`
-            );
+            console.warn(`Failed to fetch price for ${coinId}`);
 
-            if (coinId !== 'ethereum') {
-                return fetchTokenPrice('ethereum');
+            // Try to use cache even if expired
+            if (tokenPriceCache[coinId]) {
+                console.log(
+                    `Using expired cache for ${coinId}: ${tokenPriceCache[coinId].price}`
+                );
+                return tokenPriceCache[coinId].price;
+            }
+
+            // Fallback to ethereum
+            if (coinId !== 'ethereum' && tokenPriceCache['ethereum']) {
+                console.log(
+                    `Fallback to cached ethereum price: ${tokenPriceCache['ethereum'].price}`
+                );
+                return tokenPriceCache['ethereum'].price;
             }
 
             throw new Error(
@@ -155,41 +256,55 @@ export const fetchTokenPrice = async (tokenSymbol: string): Promise<number> => {
 
         // Check if the response contains the price data
         if (!data[coinId] || typeof data[coinId].usd !== 'number') {
-            console.warn(
-                `No price data found for ${coinId}, falling back to ethereum`
-            );
+            console.warn(`No price data found for ${coinId}`);
 
-            if (coinId !== 'ethereum') {
-                return fetchTokenPrice('ethereum');
+            // Try to use cache even if expired
+            if (tokenPriceCache[coinId]) {
+                console.log(
+                    `Using expired cache for ${coinId}: ${tokenPriceCache[coinId].price}`
+                );
+                return tokenPriceCache[coinId].price;
+            }
+
+            // Fallback to ethereum
+            if (coinId !== 'ethereum' && tokenPriceCache['ethereum']) {
+                console.log(
+                    `Fallback to cached ethereum price: ${tokenPriceCache['ethereum'].price}`
+                );
+                return tokenPriceCache['ethereum'].price;
             }
 
             throw new Error(`No price data found for ${coinId}`);
         }
 
-        // Return the price in USD
-        return data[coinId].usd;
+        // Update cache
+        const price = data[coinId].usd;
+        tokenPriceCache[coinId] = {
+            price,
+            timestamp: Date.now(),
+        };
+
+        return price;
     } catch (error) {
         console.error('Error fetching token price:', error);
 
-        // Instead of a hardcoded fallback, try one more direct request for ethereum
-        try {
-            const emergencyResponse = await fetch(
-                'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-                { cache: 'no-store' }
+        // Check if we have any cached ethereum price
+        if (tokenPriceCache['ethereum']) {
+            console.log(
+                `Emergency fallback to cached ethereum price: ${tokenPriceCache['ethereum'].price}`
             );
-
-            if (emergencyResponse.ok) {
-                const emergencyData = await emergencyResponse.json();
-                if (emergencyData.ethereum?.usd) {
-                    console.log('Using emergency ethereum price fallback');
-                    return emergencyData.ethereum.usd;
-                }
-            }
-        } catch (emergencyError) {
-            console.error('Emergency price fetch also failed:', emergencyError);
+            return tokenPriceCache['ethereum'].price;
         }
 
         // Last resort fallback
         return 2226.38; // Latest known ETH price as of the last update
     }
+};
+
+// Function to initialize the price cache at app startup
+export const initializeTokenPrices = async (): Promise<void> => {
+    await prefetchAllTokenPrices();
+
+    // Set up a periodic refresh of the cache
+    setInterval(prefetchAllTokenPrices, CACHE_EXPIRY_MS);
 };
