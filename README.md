@@ -1,38 +1,63 @@
-# ETH Denver 2025
+# Pixie AI: Revolutionizing AI Interaction
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## The Problem with Traditional AI
 
-## Getting Started
+🔴 **Traditional AI Challenges:**
+- Passive AI chatbots that respond predictably, offering little challenge or engagement
+- No financial incentive in AI interactions
+- AI safety and persuasion remain largely theoretical
 
-First, run the development server:
+## Pixie AI's Solution
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+✅ **Innovative Approach:**
+- Transforms AI into an interactive game with real rewards
+- Incentivizes creativity and persuasion through competitive interactions
+- Advances AI safety through real-world experimental interactions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Pixie AI is more than a game—it's a social experiment, a financialized AI challenge, and a revolutionary way to interact with artificial intelligence.**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Core Architecture Overview 🏗️
 
-## Learn More
+**Key Components:**
+- 💰 Prize pools secured by on-chain smart contracts
+- 📡 User prompts and payments tracked via indexed events
+- 🔄 Backend AI system powered by event-driven interactions
+- 🤖 LLM (fine-tuned on ChatGPT) analyzing responses
+- 🎯 Transparent prize distribution mechanism
 
-To learn more about Next.js, take a look at the following resources:
+### Technical Flow:
+1. Prize pools are locked on blockchain smart contracts
+2. User prompts and payments are emitted and indexed
+3. Backend listens to events and routes them to the LLM
+4. AI analyzes responses based on historical interactions
+5. If AI breaks its directive, it automatically triggers prize release
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*Pixie AI merges blockchain transparency with AI adaptability, creating high-stakes, interactive AI battles. 🚀*
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Current Development Trade-offs
 
-## Deploy on Vercel
+### Limitations and Planned Improvements:
+- **Agent Spawning:**
+  - *Current:* Manual user agent submission and review
+  - *Planned:* Fully automated on-chain agent spawning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **AI Customization:**
+  - *Current:* Basic fine-tuning capabilities
+  - *Planned:* Enhanced control over AI behavior
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployed Contracts
+
+### Testnet and Blockchain Deployments
+
+| Blockchain | Contract Address |
+|-----------|-----------------|
+| Story Protocol | [0x4e1caafd8610b0157a77f20807bfeb27b6f5b0c6](https://aeneid.storyscan.xyz/address/0x4e1caafd8610b0157a77f20807bfeb27b6f5b0c6) |
+| Zircuit Testnet | [0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6](https://explorer.testnet.zircuit.com/address/0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6) |
+| Flow Testnet | [0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6](https://evm-testnet.flowscan.io/address/0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6) |
+| Base | [0x18432A3527339bB8D9b850aEBC1C2754b0ADe096](https://base-sepolia.blockscout.com/address/0x18432A3527339bB8D9b850aEBC1C2754b0ADe096) |
+| Hedera | [0x4e1caafd8610b0157a77f20807bfeb27b6f5b0c6](https://hashscan.io/testnet/contract/0.0.5639432?ps=1&pf=1&pa=1&pr=1) |
+| Kite | [0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6](https://testnet.kitescan.ai/address/0x4E1caAfd8610B0157a77f20807bfEB27B6f5B0C6) |
+| Taraxa | [0xc4834def135e5c97504bb0cd3bcd3ffb5afac55d](https://testnet.explorer.taraxa.io/address/0xc4834def135e5c97504bb0cd3bcd3ffb5afac55d) |
+| ZKSync | [0x2Ad88469d56fCDAAc8ef812Bd3D7635EA44A7231](https://sepolia.explorer.zksync.io/address/0x2Ad88469d56fCDAAc8ef812Bd3D7635EA44A7231) |
