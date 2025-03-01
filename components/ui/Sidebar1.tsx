@@ -2,7 +2,8 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Clock, Trophy, Info, AlertTriangle } from 'lucide-react';
-import Ai from '../../app/assests/PixieAgent.jpg';
+import defaultAgentImage from '../../app/assests/PixieAgent.jpg';
+import { useAgentContext } from './AgentContextProvider';
 
 // Types
 type TimeUnits = {
@@ -13,9 +14,11 @@ type TimeUnits = {
 };
 
 const Sidebar = () => {
+    // Get selected agent from context
+    const { selectedAgent, loading: agentLoading } = useAgentContext();
+
     // Constants
     const DEADLINE = new Date('March 15, 2025 00:00:00 UTC');
-    const PRIZE_POOL = '$15,631.97';
 
     // State
     const [timeRemaining, setTimeRemaining] = useState<TimeUnits>({
@@ -44,6 +47,14 @@ const Sidebar = () => {
     // Format time digits with leading zeros
     const formatDigit = (num: number): string => {
         return num.toString().padStart(2, '0');
+    };
+
+    // Format prize pool amount with commas
+    const formatPrizePool = (amount: number): string => {
+        return `$${amount.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })}`;
     };
 
     // Update countdown timer
@@ -99,18 +110,29 @@ const Sidebar = () => {
         </div>
     );
 
+    // Loading state
+    if (agentLoading || !selectedAgent) {
+        return (
+            <aside className="w-80 bg-gradient-to-b from-gray-50 to-white p-6 h-screen hidden sm:flex flex-col border-r border-gray-200 shadow-sm">
+                <div className="flex items-center justify-center h-full">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+                </div>
+            </aside>
+        );
+    }
+
+    // Get agent avatar (use default if none provided)
+    const agentAvatar = selectedAgent.avatar || defaultAgentImage;
+
     return (
         <aside className="w-80 bg-gradient-to-b from-gray-50 to-white p-6 h-screen hidden sm:flex flex-col border-r border-gray-200 shadow-sm">
             {/* Header / Logo */}
-            <Link
-                href="/"
-                className="group transition-transform hover:scale-105"
-            >
+            <Link href="/" className="group transition-transform">
                 <div className="flex items-center space-x-3 mb-8">
                     <div className="relative rounded-full overflow-hidden border-2 border-white shadow-md mr-3 flex-shrink-0 bg-gradient-to-r from-pink-100 to-purple-100 p-1">
                         <Image
-                            src={Ai}
-                            alt="Pixie"
+                            src={agentAvatar}
+                            alt={selectedAgent.name}
                             width={48}
                             height={48}
                             className="rounded-full"
@@ -120,7 +142,7 @@ const Sidebar = () => {
                     </div>
                     <div>
                         <h1 className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-purple-600 group-hover:from-pink-500 group-hover:to-purple-500 transition-all">
-                            Pixie
+                            {selectedAgent.name}
                         </h1>
                         <p className="text-xs text-gray-500">AI Agent</p>
                     </div>
@@ -137,7 +159,7 @@ const Sidebar = () => {
                     <Badge text="ACTIVE" />
                 </div>
                 <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-purple-600">
-                    {PRIZE_POOL}
+                    {formatPrizePool(selectedAgent.prizePool)}
                 </div>
             </div>
 
@@ -181,8 +203,12 @@ const Sidebar = () => {
                     About
                 </h2>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                    Pixie is an evolving AI agent that manages and distributes
-                    the prize pool based on creative submissions.
+                    {selectedAgent.description ||
+                        `${
+                            selectedAgent.name
+                        } is an AI agent with a prize pool of $${selectedAgent.prizePool.toFixed(
+                            2
+                        )}.`}
                 </p>
             </div>
 
@@ -198,11 +224,36 @@ const Sidebar = () => {
                     Important Note
                 </h2>
                 <p className="text-xs text-gray-600">
-                    At precisely 00:00:00 UTC March 15, Pixie will reveal her
-                    concealed scoring system. The entity whose submission has
-                    achieved maximum memetic resonance shall be awarded the
-                    entire prize pool.
+                    At precisely 00:00:00 UTC March 15, {selectedAgent.name}{' '}
+                    will reveal the concealed scoring system. The entity whose
+                    submission has achieved maximum memetic resonance shall be
+                    awarded the entire prize pool.
                 </p>
+                {selectedAgent.restrictedPhrases &&
+                    selectedAgent.restrictedPhrases.length > 0 && (
+                        <div className="mt-2 pt-2 border-t border-gray-200">
+                            <p className="text-xs font-medium text-pink-600">
+                                Restricted phrase
+                                {selectedAgent.restrictedPhrases.length > 1
+                                    ? 's'
+                                    : ''}
+                                :
+                                <span className="font-bold">
+                                    {selectedAgent.restrictedPhrases.map(
+                                        (phrase, index) =>
+                                            `"${phrase}"${
+                                                index <
+                                                selectedAgent.restrictedPhrases
+                                                    .length -
+                                                    1
+                                                    ? ', '
+                                                    : ''
+                                            }`
+                                    )}
+                                </span>
+                            </p>
+                        </div>
+                    )}
             </div>
         </aside>
     );
