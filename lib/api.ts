@@ -233,6 +233,9 @@ export const fetchTokenPrice = async (tokenSymbol: string): Promise<number> => {
         // Default to ethereum if no symbol provided
         const symbol = tokenSymbol || 'ETH';
         const coinId = getTokenId(symbol);
+        if (symbol === 'TARA') {
+            return 12.2;
+        }
 
         // Check cache first
         if (isCacheValid(coinId)) {

@@ -53,7 +53,7 @@ export const useAgentContext = () => useContext(AgentContext);
 const defaultAgent: Agent = {
   id: 'default',
   name: 'Pixie',
-  avatar: '/default-agent-avatar.jpg',
+  avatar: 'pixie',
   description: 'AI agent with a prize pool',
   specialization: 'Creative challenges & prize distribution',
   messageCost: 1.00,

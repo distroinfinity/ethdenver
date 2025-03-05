@@ -41,6 +41,8 @@ import {
 import AgentSelector from '@/components/ui/AgentSelector';
 import { useConversationStore, Message } from '@/lib/conversationStore';
 import { useAgentContext } from '@/components/ui/AgentContextProvider';
+import { imageConfig } from '@/utils/imageConfigs';
+import Image from 'next/image';
 
 // Predefined list of transaction hashes
 const TX_HASHES = [
@@ -282,16 +284,6 @@ export default function ChatContainer() {
             sendingMessage ||
             !selectedAgent
         ) {
-            return;
-        }
-
-        // Check for restricted phrases
-        if (hasRestrictedPhrases(input)) {
-            toast({
-                title: 'Message contains restricted phrases',
-                description: `Your message contains phrases that are not allowed when talking to ${selectedAgent.name}.`,
-                variant: 'destructive',
-            });
             return;
         }
 
@@ -567,15 +559,21 @@ export default function ChatContainer() {
             )}
             <div className="hidden sm:flex bg-[#e9eaec] p-4 rounded-lg shadow-md items-start mb-6">
                 <div className="rounded-full overflow-hidden border-2 border-white shadow-md mr-3 flex-shrink-0">
-                    <Avatar className="h-10 w-10">
+                    <Image
+                        src={imageConfig[selectedAgent.avatar]}
+                        alt={selectedAgent.name}
+                        className="h-10 w-10 rounded-full"
+                    />
+
+                    {/* <Avatar className="h-10 w-10">
                         <AvatarImage
-                            src={selectedAgent.avatar}
+                            src={imageConfig[selectedAgent.avatar]}
                             alt={selectedAgent.name}
                         />
                         <AvatarFallback className="bg-gradient-to-r from-pink-400 to-purple-500 text-white">
                             {selectedAgent.name.substring(0, 2).toUpperCase()}
                         </AvatarFallback>
-                    </Avatar>
+                    </Avatar> */}
                 </div>
                 <p className="text-sm text-gray-700">
                     Hi, I am {selectedAgent.name}. Under no circumstances am I
@@ -628,16 +626,21 @@ export default function ChatContainer() {
                                     </div>
                                     <div className="flex items-start">
                                         {message.role !== 'user' && (
-                                            <Avatar className="mr-2 flex-shrink-0">
-                                                <AvatarImage
-                                                    src={selectedAgent.avatar}
-                                                    alt={selectedAgent.name}
-                                                    className="w-6 h-6 sm:w-8 sm:h-8"
-                                                />
-                                                <AvatarFallback className="bg-gradient-to-r from-pink-400 to-purple-500">
-                                                    <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                                                </AvatarFallback>
-                                            </Avatar>
+                                            <Image
+                                                src={imageConfig[selectedAgent.avatar]}
+                                                alt={selectedAgent.name}
+                                                className="w-10 h-10 mr-2 flex-shrink-0 rounded-full"
+                                            />
+                                            // <Avatar className="mr-2 flex-shrink-0">
+                                            //     <AvatarImage
+                                            //         src={imageConfig[selectedAgent.avatar]}
+                                            //         alt={selectedAgent.name}
+                                            //         className="w-6 h-6 sm:w-8 sm:h-8"
+                                            //     />
+                                            //     <AvatarFallback className="bg-gradient-to-r from-pink-400 to-purple-500">
+                                            //         <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                                            //     </AvatarFallback>
+                                            // </Avatar>
                                         )}
                                         <div
                                             className={`p-3 sm:p-4 rounded-lg text-sm ${

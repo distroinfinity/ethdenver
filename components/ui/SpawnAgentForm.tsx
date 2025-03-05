@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CutCornerButton } from './CutCornerButton';
-import { useAccount } from 'wagmi'; // Assuming you're using wagmi for wallet connection
+import { useAccount } from 'wagmi';
 import { createAgent } from '@/lib/api';
+import { imageConfig } from '@/utils/imageConfigs';
 
 const SpawnAgentForm = () => {
     // Get user's wallet address
@@ -15,50 +16,44 @@ const SpawnAgentForm = () => {
 
     // Avatar image URLs
     const avatarImages = {
-        avatar1:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
-        avatar2:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
-        avatar3:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
-        avatar4:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
-        avatar5:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
-        avatar6:
-            'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+        avatar1: 'pixie',
+        avatar2: 'roxie',
+        avatar3: 'candy',
+        avatar4: 'crystal',
+        avatar5: 'victoria',
+        avatar6: 'cassandra',
     };
 
     // Predefined avatar options
     const avatarOptions = [
         {
             id: 'avatar1',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['pixie'],
             alt: 'avatar1',
         },
         {
             id: 'avatar2',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['roxie'],
             alt: 'avatar2',
         },
         {
             id: 'avatar3',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['candy'],
             alt: 'avatar3',
         },
         {
             id: 'avatar4',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['crystal'],
             alt: 'avatar4',
         },
         {
             id: 'avatar5',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['victoria'],
             alt: 'avatar5',
         },
         {
             id: 'avatar6',
-            src: 'https://ethdenver-weld.vercel.app/_next/static/media/PixieAgent.b28c203c.jpg',
+            src: imageConfig['cassandra'],
             alt: 'avatar6',
         },
     ];

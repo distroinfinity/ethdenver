@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Clock, Trophy, Info, AlertTriangle } from 'lucide-react';
 import defaultAgentImage from '../../app/assests/PixieAgent.jpg';
 import { useAgentContext } from './AgentContextProvider';
+import { imageConfig } from '@/utils/imageConfigs';
 
 // Types
 type TimeUnits = {
@@ -121,9 +122,6 @@ const Sidebar = () => {
         );
     }
 
-    // Get agent avatar (use default if none provided)
-    const agentAvatar = selectedAgent.avatar || defaultAgentImage;
-
     return (
         <aside className="w-80 bg-gradient-to-b from-gray-50 to-white p-6 h-screen hidden sm:flex flex-col border-r border-gray-200 shadow-sm">
             {/* Header / Logo */}
@@ -131,13 +129,17 @@ const Sidebar = () => {
                 <div className="flex items-center space-x-3 mb-8">
                     <div className="relative rounded-full overflow-hidden border-2 border-white shadow-md mr-3 flex-shrink-0 bg-gradient-to-r from-pink-100 to-purple-100 p-1">
                         <Image
-                            src={agentAvatar}
+                            src={
+                                imageConfig[selectedAgent.avatar] ||
+                                defaultAgentImage
+                            }
                             alt={selectedAgent.name}
                             width={48}
                             height={48}
                             className="rounded-full"
                             style={{ objectFit: 'cover' }}
                             priority
+                            key={selectedAgent.avatar}
                         />
                     </div>
                     <div>

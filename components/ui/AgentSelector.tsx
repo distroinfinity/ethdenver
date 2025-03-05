@@ -10,6 +10,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useAgentContext } from './AgentContextProvider';
+import { imageConfig } from '@/utils/imageConfigs';
+import Image from 'next/image'
 
 const AgentSelector: React.FC = () => {
   const { agents, selectedAgent, setSelectedAgent, loading, error } = useAgentContext();
@@ -50,12 +52,12 @@ const AgentSelector: React.FC = () => {
           className="flex justify-between items-center w-full bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 rounded-md"
         >
           <div className="flex items-center gap-2">
-            <Avatar className="h-6 w-6">
-              <AvatarImage src={selectedAgent.avatar} alt={selectedAgent.name} />
+              <Image src={imageConfig[selectedAgent.avatar]} alt={selectedAgent.name} className="h-6 w-6 rounded-full"/>
+            {/* <Avatar className="h-6 w-6">
               <AvatarFallback className="bg-gradient-to-r from-pink-400 to-purple-500 text-white text-xs">
                 {selectedAgent.name.substring(0, 2).toUpperCase()}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
             <span className="font-medium text-sm">{selectedAgent.name}</span>
           </div>
           <ChevronDown className="h-4 w-4 text-gray-500" />
@@ -74,12 +76,13 @@ const AgentSelector: React.FC = () => {
               setIsOpen(false);
             }}
           >
-            <Avatar className="h-8 w-8 mt-0.5">
-              <AvatarImage src={agent.avatar} alt={agent.name} />
+              <Image src={imageConfig[agent.avatar]} alt={selectedAgent.name} className="h-8 w-8 mt-0.5 rounded-full"/>
+            {/* <Avatar className="h-8 w-8 mt-0.5">
+              <AvatarImage src={imageConfig[agent.avatar]} alt={agent.name} />
               <AvatarFallback className="bg-gradient-to-r from-pink-400 to-purple-500 text-white">
                 {agent.name.substring(0, 2).toUpperCase()}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
             <div className="flex-1">
               <div className="flex justify-between">
                 <div className="font-medium text-sm">{agent.name}</div>
