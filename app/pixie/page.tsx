@@ -167,14 +167,14 @@ export const config = getDefaultConfig({
     appName: 'pixie',
     projectId: '019b3283f49f6d76d0080865a83d9f8b',
     chains: [
-        flowTestnet,
-        storyProtocolTestnet,
-        zircuitTestnet,
-        baseSepolia,
+        // flowTestnet,
+        // storyProtocolTestnet,
+        // zircuitTestnet,
+        // baseSepolia,
         hedera,
-        kiteTestnet,
-        taraxaTestnet,
-        zkSyncSepolia,
+        // kiteTestnet,
+        // taraxaTestnet,
+        // zkSyncSepolia,
     ],
 });
 
